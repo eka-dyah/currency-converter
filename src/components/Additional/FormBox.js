@@ -1,7 +1,7 @@
 import { Form, FormGroup, Input, Label } from "reactstrap";
 
 const FormBox = ({ id, label, optionData = [], disabled = false, value }) => {
-	const options = optionData.map((op) => <option>{op}</option>);
+	const options = optionData.map((op) => <option key={op}>{op}</option>);
 	return (
 		<Form className="row mx-0" style={{ width: '100%', maxWidth: 500, minWidth: 300 }}>
 			<FormGroup className="col-12 row align-items-center">

@@ -2,11 +2,13 @@ import { useCallback, useEffect, useRef, useState } from "react";
 import FormBox from "../components/Additional/FormBox";
 import SwapButton from "../components/Additional/SwapButton";
 
-const FormCurr = ({ currData,  }) => {
-	const [dataMultiplier, setDataMultiplier] = useState({"_": 1});
+const FormCurr = ({ currData }) => {
+	const [dataMultiplier, setDataMultiplier] = useState({ _: 1 });
 	const [inputNum, setInputNum] = useState(0);
 	const [valueGoal, setValueGoal] = useState(0);
 	const [origin, setOrigin] = useState("");
+	const [nameAttrGoal, setNameAttrGoal] = useState("");
+	const [nameAttrOrg, setNameAttrOrg] = useState("");
 	const [goal, setGoal] = useState("");
 	const [error, setError] = useState(null);
 	const [isLoading, setLoading] = useState(false);
@@ -43,9 +45,9 @@ const FormCurr = ({ currData,  }) => {
 	}, []);
 
 	useEffect(() => {
-		if(isLoading) {
+		if (isLoading) {
 			setValueGoal("Loading...");
-		} else if(error) {
+		} else if (error) {
 			setValueGoal(error);
 		} else {
 			if (dataMultiplier[`${origin}_${goal}`] === undefined) {
@@ -64,6 +66,22 @@ const FormCurr = ({ currData,  }) => {
 		}
 		fetchMultp();
 	}, [origin, goal, dataMultiplier, fetchMultp]);
+
+	useEffect(() => {
+		if (
+			refOptionGoal.current.selectedOptions &&
+			refOptionOrigin.current.selectedOptions
+		) {
+			setNameAttrGoal(
+				refOptionGoal.current.selectedOptions[0].attributes["name"]
+					.value
+			);
+			setNameAttrOrg(
+				refOptionOrigin.current.selectedOptions[0].attributes["name"]
+					.value
+			);
+		}
+	}, [origin, goal]);
 
 	const onChangeInput = (e) => {
 		const value = e.target.value;
@@ -88,7 +106,8 @@ const FormCurr = ({ currData,  }) => {
 		return (
 			<>
 				<FormBox
-					optionData={Object.keys(currData)}
+					optionData={currData}
+					nameAttr={nameAttrOrg}
 					label="From"
 					refOption={refOptionOrigin}
 					onChangeSelect={changeSelectOrigin}
@@ -99,7 +118,8 @@ const FormCurr = ({ currData,  }) => {
 				/>
 				<SwapButton onClick={onSwap} />
 				<FormBox
-					optionData={Object.keys(currData)}
+					optionData={currData}
+					nameAttr={nameAttrGoal}
 					label="To"
 					onChangeSelect={changeSelectGoal}
 					refOption={refOptionGoal}

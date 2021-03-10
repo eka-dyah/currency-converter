@@ -3,7 +3,8 @@ import { Form, FormFeedback, FormGroup, Input, Label } from "reactstrap";
 const FormBox = ({
 	id,
 	label,
-	optionData = [],
+	nameAttr,
+	optionData = null,
 	disabled = false,
 	typeInput,
 	value,
@@ -16,17 +17,21 @@ const FormBox = ({
 	refInput,
 	refOption,
 }) => {
-	const options = optionData.map((op) => (
-		<option key={op} value={op}>
-			{op}
-		</option>
-	));
+	let options = null;
+	if (optionData) {
+		options = Object.keys(optionData).map((op) => (
+			<option key={op} value={op} name={optionData[op].currencyName}>
+				{op}
+			</option>
+		));
+	}
 	return (
 		<Form
 			className="row mx-0"
 			style={{ width: "100%", maxWidth: 500, minWidth: 300 }}
 		>
 			<FormGroup className="col-12 row align-items-center">
+				<p className="text-center col-12 m-0 mb-1">{nameAttr}</p>
 				<Label className="col-2 my-0" for={id}>
 					{label}
 				</Label>

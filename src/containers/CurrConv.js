@@ -12,10 +12,13 @@ const CurrConv = () => {
 	const fetchCurrencies = () => {
 		setLoading(true);
 		fetch(
-			`${process.env.REACT_APP_URL}/currencies?${process.env.REACT_APP_API_KEY}`
+			`${process.env.REACT_APP_URL}/currencies`
 		)
 			.then((res) => res.json())
 			.then((data) => {
+				if (data.error) {
+					throw new Error();
+				}
 				setCurrData(data.results);
 				setLoading(false);
 				setError(null);

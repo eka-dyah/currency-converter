@@ -4,8 +4,8 @@ import SwapButton from "../components/Additional/SwapButton";
 
 const FormCurr = ({ currData }) => {
 	const [dataMultiplier, setDataMultiplier] = useState({ _: 1 });
-	const [inputNum, setInputNum] = useState(0);
-	const [valueGoal, setValueGoal] = useState(0);
+	const [inputNum, setInputNum] = useState(1);
+	const [valueGoal, setValueGoal] = useState(1);
 	const [origin, setOrigin] = useState("");
 	const [nameAttrGoal, setNameAttrGoal] = useState("");
 	const [nameAttrOrg, setNameAttrOrg] = useState("");
@@ -24,10 +24,13 @@ const FormCurr = ({ currData }) => {
 		}
 		setLoading(true);
 		fetch(
-			`${process.env.REACT_APP_URL}/convert?q=${origin}_${goal},${goal}_${origin}&compact=ultra&${process.env.REACT_APP_API_KEY}`
+			`${process.env.REACT_APP_URL}/convert/${origin}&${goal}`
 		)
 			.then((res) => res.json())
 			.then((data) => {
+				if (data.error) {
+					throw new Error();
+				}
 				setDataMultiplier(data);
 				setLoading(false);
 				setError(null);

@@ -1,3 +1,4 @@
+import Footer from "./Footer";
 import Header from "./Header";
 
 const Layout = ({ children }) => (
@@ -6,6 +7,7 @@ const Layout = ({ children }) => (
 		<div className="container-sm" style={{ maxWidth: 500 }}>
 			{children}
 		</div>
+		<Footer />
 	</>
 );
 
